@@ -9,13 +9,14 @@ module.exports = function toReadable(number) {
     const numberDozens = number => Math.floor(number / 10) - 2;
     const numberUnits = number => firstTen[number % 10];
     const hundredDozens = number => Math.floor(number % 100);
+    const getSecondTen = number => secondTen[number - 10];
 
     const getUnit = number => number % 10 ?
         numberUnits(number) : '';
 
     const getDozen = number => number < 10 ?
         firstTen[number] : (number < 100 && number >= 20) ?
-            `${dozens[numberDozens(number)]} ${getUnit(number)}` : secondTen[number - 10];
+            `${dozens[numberDozens(number)]} ${getUnit(number)}` : getSecondTen(number);
 
     const getReadableNumber = number => number === 0 ?
         'zero' : number >= 100 ?
