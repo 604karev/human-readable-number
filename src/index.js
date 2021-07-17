@@ -5,22 +5,22 @@ module.exports = function toReadable(number) {
     const secondTen = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
     const dozens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
-    const numberHundreds = number => Math.floor(number / 100);
-    const numberDozens = number => Math.floor(number / 10) - 2;
-    const numberUnits = number => firstTen[number % 10];
-    const hundredDozens = number => Math.floor(number % 100);
+    const getNumberHundreds = number => firstTen[Math.floor(number / 100)];
+    const getNumberDozens = number => dozens[Math.floor(number / 10) - 2];
+    const getNumberUnits = number => firstTen[number % 10];
+    const getHundredDozens = number => Math.floor(number % 100);
     const getSecondTen = number => secondTen[number - 10];
 
     const getUnit = number => number % 10 ?
-        numberUnits(number) : '';
+        getNumberUnits(number) : '';
 
     const getDozen = number => number < 10 ?
         firstTen[number] : (number < 100 && number >= 20) ?
-            `${dozens[numberDozens(number)]} ${getUnit(number)}` : getSecondTen(number);
+            `${getNumberDozens(number)} ${getUnit(number)}` : getSecondTen(number);
 
     const getReadableNumber = number => number === 0 ?
         'zero' : number >= 100 ?
-            `${firstTen[numberHundreds(number)]} hundred ${getDozen(hundredDozens(number))}` : getDozen(number);
+            `${getNumberHundreds(number)} hundred ${getDozen(getHundredDozens(number))}` : getDozen(number);
 
     return getReadableNumber(number).trim();
 };
